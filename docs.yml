@@ -1,0 +1,57 @@
+version: '0.1'
+title: Axon User
+summary: 'Axon User Management'
+description: 'An API for managing Axon users'
+resources:
+  - path: "user"
+    description: "Path representing Axon users"
+models:
+  - name: "createUserRequest"
+    description: "The fields necessary to create a user."
+    contentType: "application/json"
+    schema:
+      type: object
+      properties:
+        email:
+          type: string
+          format: string
+        first_name:
+          type: string
+          format: string
+        last_name:
+          type: string
+          format: string
+      required:
+        - email
+        - first_name
+        - last_name
+
+  - name: createUserResponse
+    description: "A minimal representation of user"
+    contentType: "application/json"
+    schema:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+      required:
+        - _id
+
+  - name: APIError
+    description: "Error returned by the API"
+    contentType: "application/json"
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          format: string
+        error:
+          type: string
+          format: string
+        statusCode:
+          type: number
+      required:
+        - error
+        - statusCode

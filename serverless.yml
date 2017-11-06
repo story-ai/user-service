@@ -1,0 +1,107 @@
+service: user
+
+provider:
+  name: aws
+  region: eu-west-2
+  runtime: nodejs6.10
+  apiKeys:
+    - token
+  stage: dev
+  profile: serverless
+  iamRoleStatements:
+    # -  Effect: "Allow"
+    #    Action:
+    #      - "apigateway:GET"
+    #    Resource:
+    #      Fn::Join:
+    #        - ""
+    #        - - "arn:aws:apigateway:eu-west-2::/restapis"
+    -  Effect: "Allow"
+       Action:
+         - "apigateway:GET"
+       Resource:
+         Fn::Join:
+           - ""
+           - - "arn:aws:apigateway:eu-west-2::*"
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-aws-documentation
+  - serverless-domain-manager
+
+package:
+  exclude:
+    - .gitignore
+    - .git/**
+
+resources:
+  Resources:
+    ApiGatewayRestApi:
+      Type: "AWS::ApiGateway::RestApi"
+      Properties:
+        Name : "axon-user"
+
+
+functions:
+
+  spec: 
+    handler: handlers/spec.index
+    environment:
+      API_GATEWAY_NAME: ${self:resources.Resources.ApiGatewayRestApi.Properties.Name}
+      API_GATEWAY_STAGE: ${self:provider.stage}
+      AWS_PROFILE: serverless
+    events:
+      - http:
+          path: spec
+          method: get
+          cors: true
+          documentation:
+            summary: "Get documentation specification for this API"
+            methodResponses:
+              - statusCode: "200"
+                responseDescription: "OpenAPI Specification for this API"
+
+  create:
+    handler: handlers/create.index
+    environment:
+      SENDGRID_API_KEY: ${file(keys.yml):SENDGRID_API_KEY}
+    events:
+      - http:
+          path: user
+          method: post
+          cors: true
+          documentation:
+            summary: "Create a new CENTURY user"
+            requestBody:
+              description: "JSON body containing the new user's name and email address."
+            requestModels:
+                "application/json": "createUserRequest"
+            methodResponses:
+              - statusCode: "200"
+                responseModels:
+                  "application/json": "createUserResponse"
+              - statusCode: "409"
+                responseBody:
+                  description: "Triggered when the email address has already been used to register for CENTURY."
+                responseModels:
+                  "application/json": "APIError"
+              - statusCode: "422"
+                responseBody:
+                  description: "Triggered if any user fields fail validation."
+                responseModels:
+                  "application/json": "APIError"
+              - statusCode: "500"
+                responseBody:
+                  description: "Triggered if something else goes wrong on the server."
+                responseModels:
+                  "application/json": "APIError"
+
+custom:
+  customDomain:
+    domainName: api.axontoken.com
+    basePath: v1
+    stage: dev
+    createRoute53Record: true
+
+  documentation: ${file(docs.yml)}
