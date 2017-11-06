@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"moduleResolution":  "node",
+		"lib":["es2015"],
+		"sourceMap": true,
+		"noImplicitAny": true,
+		"watch": true,
+		"strict": true,
+		"strictNullChecks": true,
+
+    "preserveConstEnums": true,
+    "outDir": ".build",
+    "lib": ["es2015"],
+    "rootDir": "./"
+  },
+	"declaration": true
+}

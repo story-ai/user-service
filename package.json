@@ -1,0 +1,32 @@
+{
+  "name": "ico-platform",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=6.10.3"
+  },
+  "author": "Christopher Little",
+  "license": "MIT",
+  "dependencies": {
+    "@sendgrid/mail": "^6.1.4",
+    "aws-sdk": "^2.145.0",
+    "boom": "^5.2.0",
+    "node-fetch": "^1.7.3",
+    "randomatic": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^0.0.19",
+    "@types/boom": "^4.3.7",
+    "@types/express": "^4.0.39",
+    "@types/node": "^8.0.47",
+    "@types/node-fetch": "^1.6.7",
+    "serverless-aws-documentation": "^1.0.0",
+    "serverless-domain-manager": "^1.1.16",
+    "serverless-offline": "^3.16.0",
+    "serverless-plugin-typescript": "^1.1.3"
+  }
+}
