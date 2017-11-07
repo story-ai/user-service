@@ -7,7 +7,7 @@ is mostly written in TypeScript, and runs off-chain on a private cloud to
 protect API keys (for the CENTURY and SendGrid APIs). It is currently
 deployed at https://api.axontoken.com/v1.
 
-== Specification
+== Documentation
 
 The API is documented with an
 https://github.com/OAI/OpenAPI-Specification[OpenAPI] specification, which is
@@ -26,11 +26,11 @@ rapid development without deployment.
 === Installation
 
 ```
-npm install serverless -g                                   # Install serverless framework
-git clone git@github.com:axon-token/ico-platform.git        # Clone the framework
+npm install serverless -g                                   
+git clone git@github.com:axon-token/tokensale-user-service.git
 cd ico-platform                                             
-npm install                                                 # Install local dependencies
-vim keys.yml                                                # Add correct deployment keys
+npm install                                                 
+vim keys.yml    # Add correct deployment keys
 ```
 
 === Local
