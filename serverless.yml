@@ -1,4 +1,4 @@
-service: user
+service: axon-user
 
 provider:
   name: aws
@@ -8,59 +8,57 @@ provider:
     - token
   stage: dev
   profile: serverless
-  iamRoleStatements:
-    # -  Effect: "Allow"
-    #    Action:
-    #      - "apigateway:GET"
-    #    Resource:
-    #      Fn::Join:
-    #        - ""
-    #        - - "arn:aws:apigateway:eu-west-2::/restapis"
-    -  Effect: "Allow"
-       Action:
-         - "apigateway:GET"
-       Resource:
-         Fn::Join:
-           - ""
-           - - "arn:aws:apigateway:eu-west-2::*"
 
 plugins:
-  - serverless-plugin-typescript
-  - serverless-offline
-  - serverless-aws-documentation
-  - serverless-domain-manager
+  - serverless-plugin-typescript  # compile our handlers
+  - serverless-offline            # enjoy a local dev enc 
+  - serverless-aws-documentation  # generate documentation on deploy
+  - serverless-domain-manager     # serve API gateway from our own domain
+  - upload_spec                   # upload spec to S3 after deployment
 
 package:
   exclude:
     - .gitignore
     - .git/**
 
+# We create a proxy resource which serves the swagger spec directly from S3
 resources:
   Resources:
-    ApiGatewayRestApi:
-      Type: "AWS::ApiGateway::RestApi"
-      Properties:
-        Name : "axon-user"
 
+    ProxyResource:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        ParentId:
+          Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId
+        PathPart: spec 
+        RestApiId:
+          Ref: ApiGatewayRestApi
+          
+    ProxyMethod:
+      Type: AWS::ApiGateway::Method
+      Properties:
+        ResourceId:
+          Ref: ProxyResource
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        HttpMethod: GET 
+        AuthorizationType: NONE
+        MethodResponses:
+          - StatusCode: 200
+            ResponseParameters: 
+              method.response.header.Access-Control-Allow-Origin: true
+        Integration:
+          IntegrationHttpMethod: GET
+          Type: HTTP
+          Uri: https://s3.eu-west-2.amazonaws.com/axon-specs/${self:service}.json
+          IntegrationResponses:
+            - StatusCode: 200
+              ResponseParameters:
+                method.response.header.Access-Control-Allow-Origin : "'*'"
 
 functions:
-
-  spec: 
-    handler: handlers/spec.index
-    environment:
-      API_GATEWAY_NAME: ${self:resources.Resources.ApiGatewayRestApi.Properties.Name}
-      API_GATEWAY_STAGE: ${self:provider.stage}
-      AWS_PROFILE: serverless
-    events:
-      - http:
-          path: spec
-          method: get
-          cors: true
-          documentation:
-            summary: "Get documentation specification for this API"
-            methodResponses:
-              - statusCode: "200"
-                responseDescription: "OpenAPI Specification for this API"
 
   create:
     handler: handlers/create.index
@@ -105,3 +103,5 @@ custom:
     createRoute53Record: true
 
   documentation: ${file(docs.yml)}
+
+  spec_bucket: axon-specs
