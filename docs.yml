@@ -1,12 +1,14 @@
-version: '0.2.1'
-title: Axon User
-summary: 'Axon User Management'
-description: 'An API for managing Axon users'
-resources:
-  - path: "user"
-    description: "Path representing Axon users"
+info:
+  version: "0.2.4"
+  title: Axon Tokensale User Service
+  description: 'An API for user registration and management during the Axon token sale.'
+  contact:
+    name: "Christopher Little"
+    url: "https://axontoken.com"
+    email: "christopher@axontoken.com"
 models:
-  - name: "createUserRequest"
+
+  - name: CreateUserRequest
     description: "The fields necessary to create a user."
     contentType: "application/json"
     schema:
@@ -26,7 +28,7 @@ models:
         - first_name
         - last_name
 
-  - name: createUserResponse
+  - name: CreateUserResponse
     description: "A minimal representation of user"
     contentType: "application/json"
     schema:

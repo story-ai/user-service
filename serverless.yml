@@ -25,6 +25,11 @@ package:
 resources:
   Resources:
 
+    ApiGatewayRestApi:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: Tokensale User Service
+
     ProxyResource:
       Type: AWS::ApiGateway::Resource
       Properties:
@@ -58,6 +63,17 @@ resources:
               ResponseParameters:
                 method.response.header.Access-Control-Allow-Origin : "'*'"
 
+    DocumentationPartMethodSpec:
+      Type: "AWS::ApiGateway::DocumentationPart"
+      Properties:
+        Location: 
+          Type: METHOD
+          Method: GET
+          Path: /spec
+        Properties: '{ "description": "Get API spec", "summary": "Retrieve this API specification document"}'
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+
 functions:
 
   create:
@@ -66,7 +82,7 @@ functions:
       SENDGRID_API_KEY: ${file(keys.yml):SENDGRID_API_KEY}
     events:
       - http:
-          path: user
+          path: /
           method: post
           cors: true
           documentation:
@@ -74,32 +90,30 @@ functions:
             requestBody:
               description: "JSON body containing the new user's name and email address."
             requestModels:
-                "application/json": "createUserRequest"
+                "application/json": "CreateUserRequest"
             methodResponses:
               - statusCode: "200"
+                description: "Returned after the user has successfully been created"
                 responseModels:
-                  "application/json": "createUserResponse"
+                  "application/json": "CreateUserResponse"
               - statusCode: "409"
-                responseBody:
-                  description: "Triggered when the email address has already been used to register for CENTURY."
+                description: "Triggered when the email address has already been used to register for CENTURY."
                 responseModels:
                   "application/json": "APIError"
               - statusCode: "422"
-                responseBody:
-                  description: "Triggered if any user fields fail validation."
+                description: "Triggered if any user fields fail validation."
                 responseModels:
                   "application/json": "APIError"
               - statusCode: "500"
-                responseBody:
-                  description: "Triggered if something else goes wrong on the server."
+                description: "Triggered if something else goes wrong on the server."
                 responseModels:
                   "application/json": "APIError"
 
 custom:
   customDomain:
     domainName: api.axontoken.com
-    basePath: v1
-    stage: dev
+    basePath: user
+    stage: ${self:provider.stage}
     createRoute53Record: true
 
   documentation: ${file(docs.yml)}
