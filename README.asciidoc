@@ -5,15 +5,18 @@ Christopher Little <christopher@axontoken.com>
 This service provides registration and user management endpoints for Axon. It
 is mostly written in TypeScript, and runs off-chain on a private cloud to
 protect API keys (for the CENTURY and SendGrid APIs). It is currently
-deployed at https://api.axontoken.com/v1.
+deployed at https://api.axontoken.com.
 
 == Documentation
 
 The API is documented with an
 https://github.com/OAI/OpenAPI-Specification[OpenAPI] specification, which is
-served on the https://api.axontoken.com/v1/spec[/spec] endpoint. You can view
-live, interactive documentation
-http://petstore.swagger.io/?url=https://api.axontoken.com/v1/spec[here].
+served on the `{resource}/spec` endpoint. We currently use this specification to 
+generate automated documentation, but it can also be used to generate client libraries.
+
+User Service:: 
+http://petstore.swagger.io/?url=https://api.axontoken.com/user/spec[Documentation]
+(https://api.axontoken.com/user/spec[specification])
 
 == Run it yourself
 
