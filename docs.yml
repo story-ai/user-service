@@ -1,13 +1,27 @@
 info:
-  version: "0.2.4"
+  version: "0.2.6"
   title: Axon Tokensale User Service
   description: 'An API for user registration and management during the Axon token sale.'
   contact:
     name: "Christopher Little"
     url: "https://axontoken.com"
     email: "christopher@axontoken.com"
-models:
 
+functions: 
+  spec:
+    path: /spec
+    method: get
+    documentation:
+      summary: "Retrieve the spec for the user service"
+      tags: 
+        - user
+      requestBody:
+        description: "<No Body>"
+      methodResponses:
+        - statusCode: "200"
+          description: "Returns the specification"
+
+models:
   - name: CreateUserRequest
     description: "The fields necessary to create a user."
     contentType: "application/json"

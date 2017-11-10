@@ -63,17 +63,6 @@ resources:
               ResponseParameters:
                 method.response.header.Access-Control-Allow-Origin : "'*'"
 
-    DocumentationPartMethodSpec:
-      Type: "AWS::ApiGateway::DocumentationPart"
-      Properties:
-        Location: 
-          Type: METHOD
-          Method: GET
-          Path: /spec
-        Properties: '{ "description": "Get API spec", "summary": "Retrieve this API specification document"}'
-        RestApiId: 
-          Ref: ApiGatewayRestApi
-
 functions:
 
   create:
@@ -86,7 +75,9 @@ functions:
           method: post
           cors: true
           documentation:
-            summary: "Create a new CENTURY user"
+            summary: "Create a new Axon user"
+            tags: 
+              - user
             requestBody:
               description: "JSON body containing the new user's name and email address."
             requestModels:
