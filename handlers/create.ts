@@ -77,9 +77,9 @@ async function handler(
 	// email the user to notify him of his new password, and telling him where to log in
 	const msg = {
 		to: email,
-		from: "admin@axontoken.com",
-		subject: "Your AXON demo credentials",
-		text: `Thank you for signing up to the AXON demo. 
+		from: "admin@Storytoken.com",
+		subject: "Your Story demo credentials",
+		text: `Thank you for signing up to the Story demo. 
 		You can log in at https://app.century.tech with these credentials:
 
 		Email: ${email}
@@ -88,7 +88,7 @@ async function handler(
 		You will be able to change your password after you have logged in.
 		`,
 
-		html: `<p>Thank you for signing up to the AXON demo. </p>
+		html: `<p>Thank you for signing up to the Story demo. </p>
 		<p>You can log in at <a href="https://app.century.tech">https://app.century.tech</a>
 		with these credentials:</p>
 

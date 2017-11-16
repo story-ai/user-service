@@ -1,4 +1,4 @@
-service: axon-user
+service: Story-user
 
 provider:
   name: aws
@@ -57,7 +57,7 @@ resources:
         Integration:
           IntegrationHttpMethod: GET
           Type: HTTP
-          Uri: https://s3.eu-west-2.amazonaws.com/axon-specs/${self:service}.json
+          Uri: https://s3.eu-west-2.amazonaws.com/Story-specs/${self:service}.json
           IntegrationResponses:
             - StatusCode: 200
               ResponseParameters:
@@ -75,7 +75,7 @@ functions:
           method: post
           cors: true
           documentation:
-            summary: "Create a new Axon user"
+            summary: "Create a new Story user"
             tags: 
               - user
             requestBody:
@@ -102,11 +102,11 @@ functions:
 
 custom:
   customDomain:
-    domainName: api.axontoken.com
+    domainName: api.Storytoken.com
     basePath: user
     stage: ${self:provider.stage}
     createRoute53Record: true
 
   documentation: ${file(docs.yml)}
 
-  spec_bucket: axon-specs
+  spec_bucket: Story-specs
