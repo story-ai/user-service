@@ -109,4 +109,4 @@ custom:
 
   documentation: ${file(docs.yml)}
 
-  spec_bucket: Story-specs
+  spec_bucket: story-specs
