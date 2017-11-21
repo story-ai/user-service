@@ -1,11 +1,11 @@
 info:
   version: "0.2.6"
-  title: Story Tokensale User Service
-  description: 'An API for user registration and management during the Story token sale.'
+  title: Story User Service
+  description: 'An API for user registration and management on the Story platform.'
   contact:
     name: "Christopher Little"
-    url: "https://Storytoken.com"
-    email: "christopher@Storytoken.com"
+    url: "https://story-ai.com"
+    email: "christopher@story-ai.com"
 
 functions: 
   spec:
@@ -43,7 +43,7 @@ models:
         - last_name
 
   - name: CreateUserResponse
-    description: "A minimal representation of user"
+    description: "A minimal representation of a user"
     contentType: "application/json"
     schema:
       type: object

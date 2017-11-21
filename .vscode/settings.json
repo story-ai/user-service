@@ -1,0 +1,14 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    ".serverless": true,
+    ".vscode": true,
+    "node_modules": true,
+    "yarn.lock": true,
+    "package-lock.json": true
+  }
+}

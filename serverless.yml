@@ -28,7 +28,7 @@ resources:
     ApiGatewayRestApi:
       Type: AWS::ApiGateway::RestApi
       Properties:
-        Name: Tokensale User Service
+        Name: Story User Service
 
     ProxyResource:
       Type: AWS::ApiGateway::Resource
@@ -102,7 +102,7 @@ functions:
 
 custom:
   customDomain:
-    domainName: api.Storytoken.com
+    domainName: api.axontoken.com
     basePath: user
     stage: ${self:provider.stage}
     createRoute53Record: true

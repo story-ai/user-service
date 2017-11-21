@@ -1,11 +1,11 @@
 = Story User Service
-Christopher Little <christopher@Storytoken.com>
+Christopher Little <christopher@axontoken.com>
 :imagesdir: assets
 
 This service provides registration and user management endpoints for Story. It
 is mostly written in TypeScript, and runs off-chain on a private cloud to
 protect API keys (for the CENTURY and SendGrid APIs). It is currently
-deployed at https://api.Storytoken.com.
+deployed at https://api.axontoken.com.
 
 == Documentation
 
@@ -15,8 +15,8 @@ served on the `{resource}/spec` endpoint. We currently use this specification to
 generate automated documentation, but it can also be used to generate client libraries.
 
 User Service:: 
-http://petstore.swagger.io/?url=https://api.Storytoken.com/user/spec[Documentation]
-(https://api.Storytoken.com/user/spec[specification])
+http://petstore.swagger.io/?url=https://api.axontoken.com/user/spec[Documentation]
+(https://api.axontoken.com/user/spec[specification])
 
 == Run it yourself
 
@@ -30,8 +30,8 @@ rapid development without deployment.
 
 ```
 npm install serverless -g                                   
-git clone git@github.com:Story-token/tokensale-user-service.git
-cd ico-platform                                             
+git clone git@github.com:story-ai/user-service.git
+cd user-service
 npm install                                                 
 vim keys.yml    # Add correct deployment keys
 ```
