@@ -14,7 +14,7 @@ plugins:
   - serverless-offline            # enjoy a local dev enc 
   - serverless-aws-documentation  # generate documentation on deploy
   - serverless-domain-manager     # serve API gateway from our own domain
-  - upload_spec                   # upload spec to S3 after deployment
+  - serverless-spec-uploader      # upload spec to S3 after deployment
 
 package:
   exclude:
