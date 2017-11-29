@@ -69,6 +69,9 @@ functions:
     handler: handlers/create.index
     environment:
       SENDGRID_API_KEY: ${file(keys.yml):SENDGRID_API_KEY}
+      CENTURY_ADMIN_EMAIL: ${file(keys.yml):CENTURY_ADMIN_EMAIL}
+      CENTURY_ADMIN_PASSWORD: ${file(keys.yml):CENTURY_ADMIN_PASSWORD}
+      AWS_PROFILE: serverless
     events:
       - http:
           path: /
