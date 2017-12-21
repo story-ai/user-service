@@ -1,19 +1,16 @@
-service: Story-user
+service: story-user
 
 provider:
   name: aws
   region: eu-west-2
   runtime: nodejs6.10
-  apiKeys:
-    - token
   stage: dev
-  profile: serverless
+  profile: story-serverless
 
 plugins:
   - serverless-plugin-typescript  # compile our handlers
   - serverless-offline            # enjoy a local dev enc 
   - serverless-aws-documentation  # generate documentation on deploy
-  - serverless-domain-manager     # serve API gateway from our own domain
   - serverless-spec-uploader      # upload spec to S3 after deployment
 
 package:
@@ -24,6 +21,20 @@ package:
 # We create a proxy resource which serves the swagger spec directly from S3
 resources:
   Resources:
+
+    DynamoDBClasses:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: story-user
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
 
     ApiGatewayRestApi:
       Type: AWS::ApiGateway::RestApi
@@ -71,7 +82,7 @@ functions:
       SENDGRID_API_KEY: ${file(keys.yml):SENDGRID_API_KEY}
       CENTURY_ADMIN_EMAIL: ${file(keys.yml):CENTURY_ADMIN_EMAIL}
       CENTURY_ADMIN_PASSWORD: ${file(keys.yml):CENTURY_ADMIN_PASSWORD}
-      AWS_PROFILE: serverless
+      AWS_PROFILE: story-serverless
     events:
       - http:
           path: /
@@ -104,12 +115,10 @@ functions:
                   "application/json": "APIError"
 
 custom:
-  customDomain:
-    domainName: api.axontoken.com
-    basePath: user
-    stage: ${self:provider.stage}
-    createRoute53Record: true
+
+  serverless-offline:
+    port: 4001
 
   documentation: ${file(docs.yml)}
 
-  spec_bucket: story-specs
+  spec_bucket: specs.story-ai.com

@@ -1,0 +1,13 @@
+{
+  "story-class": [
+    {
+      "PutRequest": {
+        "Item": {
+		  "_id": {
+		  	"S": "a66368c9-c6a1-4c5f-89ed-5ce5099b1008"
+		  }
+        }
+      }
+    }
+  ]
+}
