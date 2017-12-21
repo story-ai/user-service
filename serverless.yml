@@ -76,10 +76,46 @@ resources:
 
 functions:
 
+  addToClass:
+    handler: handlers/addToClass.index
+    environment:
+      CENTURY_ADMIN_EMAIL: ${file(keys.yml):CENTURY_ADMIN_EMAIL}
+      CENTURY_ADMIN_PASSWORD: ${file(keys.yml):CENTURY_ADMIN_PASSWORD}
+      CENTURY_ORG_ID: 0adee573-b3e3-46cf-a16b-32980590e2fe
+      AWS_PROFILE: story-serverless
+    events:
+      - http:
+          path: /{userId}/class
+          method: put
+          cors: true
+          documentation:
+            summary: Add the user to a given class
+            tags: 
+              - user
+            parameters:
+              - in: path
+                name: userId
+                schema:
+                   type: string
+                required: true
+                description: ID of the user we are adding to the class
+            requestBody:
+              description: JSON body containing details of the class to add
+            requestModels:
+                "application/json": AddToClassRequest
+            methodResponses:
+              - statusCode: "200"
+                description: Returned after the class has been added
+                responseModels:
+                  "application/json": CreateUserResponse
+              - statusCode: "500"
+                description: Triggered if something else goes wrong on the server.
+                responseModels:
+                  "application/json": APIError
+
   create:
     handler: handlers/create.index
     environment:
-      SENDGRID_API_KEY: ${file(keys.yml):SENDGRID_API_KEY}
       CENTURY_ADMIN_EMAIL: ${file(keys.yml):CENTURY_ADMIN_EMAIL}
       CENTURY_ADMIN_PASSWORD: ${file(keys.yml):CENTURY_ADMIN_PASSWORD}
       AWS_PROFILE: story-serverless
